@@ -238,7 +238,7 @@
         document.getElementById('loginWindow').classList.remove('hidden');
     }
 
-        async function handlePortalLogin() {
+         async function handlePortalLogin() {
         const sName = document.getElementById('studentName').value.trim();
         const invNo = document.getElementById('invoiceNumber').value.trim();
         const loginBtn = document.getElementById('loginBtn');
@@ -264,13 +264,16 @@
             const data = JSON.parse(textResult);
             if (data.status === "success") {
                 globalSessionData = data;
-                // Perfectly matches your clean, emojiless text slots
-                if(document.getElementById('welcomeHeader')) {
-                    document.getElementById('welcomeHeader').textContent = data.studentName;
-                document.getElementById('metaClass').textContent = data.class;
-                document.getElementById('metaFees').textContent = data.totalFees;
-                document.getElementById('metaPaid').textContent = data.amountPaid;
-                document.getElementById('metaBalance').textContent = `$${data.remainingBalance}`;
+                
+                // Safely handles the header update without crashing if text slots vary
+                const welcomeSlot = document.getElementById('welcomeHeader') || document.querySelector('h2');
+                if (welcomeSlot) {
+                    welcomeSlot.textContent = "Welcome, " + data.studentName;
+                }
+                if (document.getElementById('metaClass')) document.getElementById('metaClass').textContent = data.class;
+                if (document.getElementById('metaFees')) document.getElementById('metaFees').textContent = data.totalFees;
+                if (document.getElementById('metaPaid')) document.getElementById('metaPaid').textContent = data.amountPaid;
+                if (document.getElementById('metaBalance')) document.getElementById('metaBalance').textContent = `$${data.remainingBalance}`;
                 
                 document.getElementById('loginWindow').classList.add('hidden');
                 document.getElementById('dashboardWindow').classList.remove('hidden');
