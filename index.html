@@ -238,7 +238,7 @@
         document.getElementById('loginWindow').classList.remove('hidden');
     }
 
-    async function handlePortalLogin() {
+        async function handlePortalLogin() {
         const sName = document.getElementById('studentName').value.trim();
         const invNo = document.getElementById('invoiceNumber').value.trim();
         const loginBtn = document.getElementById('loginBtn');
@@ -264,11 +264,14 @@
             const data = JSON.parse(textResult);
             if (data.status === "success") {
                 globalSessionData = data;
-                document.getElementById('welcomeHeader').textContent = `✅ ${data.studentName}`;
+                // Perfectly matches your clean, emojiless text slots
+                if(document.getElementById('welcomeHeader')) {
+                    document.getElementById('welcomeHeader').textContent = data.studentName;
                 document.getElementById('metaClass').textContent = data.class;
                 document.getElementById('metaFees').textContent = data.totalFees;
                 document.getElementById('metaPaid').textContent = data.amountPaid;
                 document.getElementById('metaBalance').textContent = `$${data.remainingBalance}`;
+                
                 document.getElementById('loginWindow').classList.add('hidden');
                 document.getElementById('dashboardWindow').classList.remove('hidden');
             } else {
@@ -281,6 +284,7 @@
             loginBtn.textContent = 'Access Statement Dashboard';
         }
     }
+
 
     function handleReceiptUpload() {
         const fileInput = document.getElementById('receiptFile');
