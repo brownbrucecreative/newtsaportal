@@ -1,305 +1,289 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.4">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
-    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TSA Parent & Student Invoice Portal</title>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-hover: #1557b0;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --text: #202124;
+            --text-secondary: #5f6368;
+            --border: #dadce0;
+            --success: #137333;
+            --success-bg: #e6f4ea;
+            --error: #c5221f;
+            --error-bg: #fce8e6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 90vh;
+        }
+
+        .portal-container {
+            width: 100%;
+            max-width: 550px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 32px;
+            box-sizing: border-box;
+        }
+
+        h2 { margin-top: 0; color: var(--primary); font-size: 24px; font-weight: 600; }
+        p { color: var(--text-secondary); margin-bottom: 24px; font-size: 14px; }
+        
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-weight: 500; margin-bottom: 6px; font-size: 14px; }
+        
+        input[type="text"], input[type="file"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+        input[type="text"]:focus { border-color: var(--primary); outline: none; }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover { background-color: var(--primary-hover); }
+        button:disabled { background-color: var(--border); cursor: not-allowed; }
+
+        .hidden { display: none !important; }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .metrics-card {
+            background: #f1f3f4;
+            padding: 16px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary);
+        }
+        .metrics-card ul { list-style: none; padding: 0; margin: 0; }
+        .metrics-card li { margin-bottom: 8px; font-size: 14px; }
+        .metrics-card strong { color: var(--text); }
+
+        .alert {
+            padding: 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .alert-success { background: var(--success-bg); color: var(--success); border: 1px solid #ceead6; }
+        .alert-error { background: var(--error-bg); color: var(--error); border: 1px solid #fad2cf; }
+
+        .loader {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 0.8s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
-<p class="p1">&lt;!DOCTYPE html&gt;</p>
-<p class="p1">&lt;html lang="en"&gt;</p>
-<p class="p1">&lt;head&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;TSA Parent &amp; Student Invoice Portal&lt;/title&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--primary: #1a73e8;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--primary-hover: #1557b0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--bg: #f8f9fa;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--card: #ffffff;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--text: #202124;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--text-secondary: #5f6368;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--border: #dadce0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--success: #137333;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--success-bg: #e6f4ea;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--error: #c5221f;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>--error-bg: #fce8e6;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>body {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--bg);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: var(--text);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>line-height: 1.5;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin: 0;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: flex;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>justify-content: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>align-items: center;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>min-height: 90vh;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.portal-container {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>max-width: 550px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: var(--card);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-shadow: 0 4px 12px rgba(0,0,0,0.05);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 32px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>h2 { margin-top: 0; color: var(--primary); font-size: 24px; font-weight: 600; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>p { color: var(--text-secondary); margin-bottom: 24px; font-size: 14px; }</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.form-group { margin-bottom: 20px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>label { display: block; font-weight: 500; margin-bottom: 6px; font-size: 14px; }</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>input[type="text"], input[type="file"] {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 10px 12px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 1px solid var(--border);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>box-sizing: border-box;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: border-color 0.2s;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>input[type="text"]:focus { border-color: var(--primary); outline: none; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>button {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 100%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background-color: var(--primary);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>color: white;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: none;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 15px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 600;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>cursor: pointer;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>transition: background-color 0.2s;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>button:hover { background-color: var(--primary-hover); }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>button:disabled { background-color: var(--border); cursor: not-allowed; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.hidden { display: none !important; }</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.dashboard-grid {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: grid;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>grid-template-columns: 1fr;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>gap: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-top: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.metrics-card {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>background: #f1f3f4;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 16px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 6px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-left: 4px solid var(--primary);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.metrics-card ul { list-style: none; padding: 0; margin: 0; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.metrics-card li { margin-bottom: 8px; font-size: 14px; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.metrics-card strong { color: var(--text); }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.alert {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>padding: 12px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 4px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-size: 14px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-bottom: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>font-weight: 500;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.alert-success { background: var(--success-bg); color: var(--success); border: 1px solid #ceead6; }</p>
-<p class="p1"><span class="Apple-converted-space">        </span>.alert-error { background: var(--error-bg); color: var(--error); border: 1px solid #fad2cf; }</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>.loader {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border: 3px solid #f3f3f3;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-top: 3px solid var(--primary);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>border-radius: 50%;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>width: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>height: 20px;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>animation: spin 0.8s linear infinite;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>display: inline-block;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>vertical-align: middle;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>margin-right: 8px;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
-<p class="p1">&lt;/head&gt;</p>
-<p class="p1">&lt;body&gt;</p>
-<p class="p2"><br></p>
-<p class="p1">&lt;div class="portal-container"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- SYSTEM NOTIFICATION AREA --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="feedbackMessage" class="alert hidden"&gt;&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- STAGE 1: SECURE GATEWAY LOGIN --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="loginWindow"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2&gt;🚀 TSA Portal Gateway&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;Enter credentials exactly as they appear on your student registration slip.&lt;/p&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;label for="studentName"&gt;Student Full Name&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" id="studentName" placeholder="e.g., Jane Doe"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="form-group"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;label for="invoiceNumber"&gt;Invoice Statement Number&lt;/label&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;input type="text" id="invoiceNumber" placeholder="e.g., INV-10042"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;button id="loginBtn" onclick="handlePortalLogin()"&gt;Access Statement Dashboard&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;!-- STAGE 2: LIVE METRICS &amp; UPLOAD DASHBOARD --&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="dashboardWindow" class="hidden"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;h2 id="welcomeHeader"&gt;Welcome Back!&lt;/h2&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;p&gt;Real-time calculation metrics from the central TSA financial ledger matrix.&lt;/p&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;div class="dashboard-grid"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div class="metrics-card"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;li&gt;&lt;strong&gt;Class Allocation:&lt;/strong&gt; &lt;span id="metaClass"&gt;-&lt;/span&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;li&gt;&lt;strong&gt;Total Fees Invoiced:&lt;/strong&gt; $&lt;span id="metaFees"&gt;0.00&lt;/span&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;li&gt;&lt;strong&gt;Verified Payments:&lt;/strong&gt; $&lt;span id="metaPaid"&gt;0.00&lt;/span&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;li&gt;&lt;strong style="color: var(--error);"&gt;Outstanding Balance Due:&lt;/strong&gt; &lt;span id="metaBalance" style="font-weight:700; color: var(--error);"&gt;$0.00&lt;/span&gt;&lt;/li&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/ul&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;div style="border: 1px dashed var(--border); padding: 16px; border-radius: 6px;"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;h4 style="margin: 0 0 10px 0; font-size: 14px;"&gt;📸 Upload Bank Transfer Verification&lt;/h4&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;div class="form-group"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>&lt;input type="file" id="receiptFile" accept="image/*"&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>&lt;button id="uploadBtn" onclick="handleReceiptUpload()"&gt;Submit Verification Slip&lt;/button&gt;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>&lt;/div&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>&lt;/div&gt;</p>
-<p class="p1">&lt;/div&gt;</p>
-<p class="p1">&lt;script&gt;</p>
-<p class="p1"><span class="Apple-converted-space">    </span>// ⚠️ REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL</p>
-<p class="p1"><span class="Apple-converted-space">    </span>const DEPLOYED_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylTZJeMPsqvDQd4nCZCo48w5mz5k7jXx20tPQSEdHYnl2PrimFIGJ0vNDOupkG8XB0/exec";</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>let globalSessionData = null;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function showFeedback(text, isError = false) {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const msgBox = document.getElementById('feedbackMessage');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>msgBox.textContent = text;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>msgBox.className = `alert ${isError ? 'alert-error' : 'alert-success'}`;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>msgBox.classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function clearFeedback() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById('feedbackMessage').classList.add('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>async function handlePortalLogin() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const sName = document.getElementById('studentName').value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const invNo = document.getElementById('invoiceNumber').value.trim();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const loginBtn = document.getElementById('loginBtn');</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>if (!sName || !invNo) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>showFeedback("Please complete all profile authentication parameters.", true);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>clearFeedback();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>loginBtn.disabled = true;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>loginBtn.innerHTML = '&lt;div class="loader"&gt;&lt;/div&gt; Verifying Identity Matrix...';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const url = `${DEPLOYED_APPS_SCRIPT_URL}?action=fetchDetails&amp;studentName=${encodeURIComponent(sName)}&amp;invoiceNumber=${encodeURIComponent(invNo)}`;</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>const response = await fetch(url);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const textResult = await response.text();</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>// Check for raw processing errors handled by our backend engine</p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (textResult.startsWith("ERROR") || textResult.startsWith("INVALID")) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>throw new Error(textResult);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>const data = JSON.parse(textResult);</p>
-<p class="p2"><span class="Apple-converted-space">            </span></p>
-<p class="p1"><span class="Apple-converted-space">            </span>if (data.status === "success") {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>globalSessionData = data;</p>
-<p class="p2"><span class="Apple-converted-space">                </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>// Populate Dashboard Metrics</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('welcomeHeader').textContent = `✅ ${data.studentName}`;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('metaClass').textContent = data.class;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('metaFees').textContent = data.totalFees;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('metaPaid').textContent = data.amountPaid;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('metaBalance').textContent = `$${data.remainingBalance}`;</p>
-<p class="p2"><span class="Apple-converted-space">                </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>// Swap Interface Panels</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('loginWindow').classList.add('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>document.getElementById('dashboardWindow').classList.remove('hidden');</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>} catch (err) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>showFeedback(`Authentication Mismatch: ${err.message}`, true);</p>
-<p class="p1"><span class="Apple-converted-space">        </span>} finally {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>loginBtn.disabled = false;</p>
-<p class="p1"><span class="Apple-converted-space">            </span>loginBtn.textContent = 'Access Statement Dashboard';</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">    </span>function handleReceiptUpload() {</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const fileInput = document.getElementById('receiptFile');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const uploadBtn = document.getElementById('uploadBtn');</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const files = fileInput.files;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>if (!files || files.length === 0) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>showFeedback("Please attach a valid file capture payload first.", true);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>return;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>}</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>clearFeedback();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>uploadBtn.disabled = true;</p>
-<p class="p1"><span class="Apple-converted-space">        </span>uploadBtn.innerHTML = '&lt;div class="loader"&gt;&lt;/div&gt; Injecting Slip into Google Drive...';</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">        </span>const file = files[0];</p>
-<p class="p1"><span class="Apple-converted-space">        </span>const reader = new FileReader();</p>
-<p class="p1"><span class="Apple-converted-space">        </span>reader.onload = async function(e) {</p>
-<p class="p1"><span class="Apple-converted-space">            </span>const base64Data = e.target.result;</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">            </span>try {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>// Post transmission payloads securely into the matrix boundary</p>
-<p class="p1"><span class="Apple-converted-space">                </span>const formData = new URLSearchParams();</p>
-<p class="p1"><span class="Apple-converted-space">                </span>formData.append('action', 'uploadReceipt');</p>
-<p class="p1"><span class="Apple-converted-space">                </span>formData.append('studentName', globalSessionData.studentName);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>formData.append('invoiceNumber', globalSessionData.invoiceNumber);</p>
-<p class="p1"><span class="Apple-converted-space">                </span>formData.append('fileData', base64Data);</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>const response = await fetch(DEPLOYED_APPS_SCRIPT_URL, {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>method: 'POST',</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>body: formData,</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>headers: { 'Content-Type': 'application/x-www-form-urlencoded' }</p>
-<p class="p1"><span class="Apple-converted-space">                </span>});</p>
-<p class="p2"><br></p>
-<p class="p1"><span class="Apple-converted-space">                </span>const resData = await response.json();</p>
-<p class="p2"><span class="Apple-converted-space">                </span></p>
-<p class="p1"><span class="Apple-converted-space">                </span>if (resData.status === "success") {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>showFeedback("🎉 Transmission Verified! Receipt successfully logged to Drive archiving.");</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>fileInput.value = ""; // Clear file selector input</p>
-<p class="p1"><span class="Apple-converted-space">                </span>} else {</p>
-<p class="p1"><span class="Apple-converted-space">                    </span>throw new Error("Internal processing server exception.");</p>
-<p class="p1"><span class="Apple-converted-space">                </span>}</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} catch (err) {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>showFeedback(`Upload Routine Interrupted: ${err.message}`, true);</p>
-<p class="p1"><span class="Apple-converted-space">            </span>} finally {</p>
-<p class="p1"><span class="Apple-converted-space">                </span>uploadBtn.disabled = false;</p>
-<p class="p1"><span class="Apple-converted-space">                </span>uploadBtn.textContent = 'Submit Verification Slip';</p>
-<p class="p1"><span class="Apple-converted-space">            </span>}</p>
-<p class="p1"><span class="Apple-converted-space">        </span>};</p>
-<p class="p2"><span class="Apple-converted-space">        </span></p>
-<p class="p1"><span class="Apple-converted-space">        </span>reader.readAsDataURL(file);</p>
-<p class="p1"><span class="Apple-converted-space">    </span>}</p>
-<p class="p1">&lt;/script&gt;</p>
-<p class="p1">&lt;/body&gt;</p>
-<p class="p1">&lt;/html&gt;</p>
+
+<div class="portal-container">
+    <!-- SYSTEM NOTIFICATION AREA -->
+    <div id="feedbackMessage" class="alert hidden"></div>
+
+    <!-- STAGE 1: SECURE GATEWAY LOGIN -->
+    <div id="loginWindow">
+        <h2>🚀 TSA Portal Gateway</h2>
+        <p>Enter credentials exactly as they appear on your student registration slip.</p>
+        
+        <div class="form-group">
+            <label for="studentName">Student Full Name</label>
+            <input type="text" id="studentName" placeholder="e.g., Jane Doe">
+        </div>
+        
+        <div class="form-group">
+            <label for="invoiceNumber">Invoice Statement Number</label>
+            <input type="text" id="invoiceNumber" placeholder="e.g., INV-10042">
+        </div>
+        
+        <button id="loginBtn" onclick="handlePortalLogin()">Access Statement Dashboard</button>
+    </div>
+
+    <!-- STAGE 2: LIVE METRICS & UPLOAD DASHBOARD -->
+    <div id="dashboardWindow" class="hidden">
+        <h2 id="welcomeHeader">Welcome Back!</h2>
+        <p>Real-time calculation metrics from the central TSA financial ledger matrix.</p>
+
+        <div class="dashboard-grid">
+            <div class="metrics-card">
+                <ul>
+                    <li><strong>Class Allocation:</strong> <span id="metaClass">-</span></li>
+                    <li><strong>Total Fees Invoiced:</strong> $<span id="metaFees">0.00</span></li>
+                    <li><strong>Verified Payments:</strong> $<span id="metaPaid">0.00</span></li>
+                    <li><strong style="color: var(--error);">Outstanding Balance Due:</strong> <span id="metaBalance" style="font-weight:700; color: var(--error);">$0.00</span></li>
+                </ul>
+            </div>
+
+            <div style="border: 1px dashed var(--border); padding: 16px; border-radius: 6px;">
+                <h4 style="margin: 0 0 10px 0; font-size: 14px;">📸 Upload Bank Transfer Verification</h4>
+                <div class="form-group">
+                    <input type="file" id="receiptFile" accept="image/*">
+                </div>
+                <button id="uploadBtn" onclick="handleReceiptUpload()">Submit Verification Slip</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // ⚠️ REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
+    const DEPLOYED_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylTZJeMPsqvDQd4nCZCo48w5mz5k7jXx20tPQSEdHYnl2PrimFIGJ0vNDOupkG8XB0/exec";
+
+    let globalSessionData = null;
+
+    function showFeedback(text, isError = false) {
+        const msgBox = document.getElementById('feedbackMessage');
+        msgBox.textContent = text;
+        msgBox.className = `alert ${isError ? 'alert-error' : 'alert-success'}`;
+        msgBox.classList.remove('hidden');
+    }
+
+    function clearFeedback() {
+        document.getElementById('feedbackMessage').classList.add('hidden');
+    }
+
+    async function handlePortalLogin() {
+        const sName = document.getElementById('studentName').value.trim();
+        const invNo = document.getElementById('invoiceNumber').value.trim();
+        const loginBtn = document.getElementById('loginBtn');
+
+        if (!sName || !invNo) {
+            showFeedback("Please complete all profile authentication parameters.", true);
+            return;
+        }
+
+        clearFeedback();
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<div class="loader"></div> Verifying Identity Matrix...';
+
+        try {
+            const url = `${DEPLOYED_APPS_SCRIPT_URL}?action=fetchDetails&studentName=${encodeURIComponent(sName)}&invoiceNumber=${encodeURIComponent(invNo)}`;
+            
+            const response = await fetch(url);
+            const textResult = await response.text();
+            
+            // Check for raw processing errors handled by our backend engine
+            if (textResult.startsWith("ERROR") || textResult.startsWith("INVALID")) {
+                throw new Error(textResult);
+            }
+
+            const data = JSON.parse(textResult);
+            
+            if (data.status === "success") {
+                globalSessionData = data;
+                
+                // Populate Dashboard Metrics
+                document.getElementById('welcomeHeader').textContent = `✅ ${data.studentName}`;
+                document.getElementById('metaClass').textContent = data.class;
+                document.getElementById('metaFees').textContent = data.totalFees;
+                document.getElementById('metaPaid').textContent = data.amountPaid;
+                document.getElementById('metaBalance').textContent = `$${data.remainingBalance}`;
+                
+                // Swap Interface Panels
+                document.getElementById('loginWindow').classList.add('hidden');
+                document.getElementById('dashboardWindow').classList.remove('hidden');
+            }
+        } catch (err) {
+            showFeedback(`Authentication Mismatch: ${err.message}`, true);
+        } finally {
+            loginBtn.disabled = false;
+            loginBtn.textContent = 'Access Statement Dashboard';
+        }
+    }
+
+    function handleReceiptUpload() {
+        const fileInput = document.getElementById('receiptFile');
+        const uploadBtn = document.getElementById('uploadBtn');
+        const files = fileInput.files;
+
+        if (!files || files.length === 0) {
+            showFeedback("Please attach a valid file capture payload first.", true);
+            return;
+        }
+
+        clearFeedback();
+        uploadBtn.disabled = true;
+        uploadBtn.innerHTML = '<div class="loader"></div> Injecting Slip into Google Drive...';
+
+        const file = files[0];
+        const reader = new FileReader();
+        reader.onload = async function(e) {
+            const base64Data = e.target.result;
+
+            try {
+                // Post transmission payloads securely into the matrix boundary
+                const formData = new URLSearchParams();
+                formData.append('action', 'uploadReceipt');
+                formData.append('studentName', globalSessionData.studentName);
+                formData.append('invoiceNumber', globalSessionData.invoiceNumber);
+                formData.append('fileData', base64Data);
+
+                const response = await fetch(DEPLOYED_APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+                });
+
+                const resData = await response.json();
+                
+                if (resData.status === "success") {
+                    showFeedback("🎉 Transmission Verified! Receipt successfully logged to Drive archiving.");
+                    fileInput.value = ""; // Clear file selector input
+                } else {
+                    throw new Error("Internal processing server exception.");
+                }
+            } catch (err) {
+                showFeedback(`Upload Routine Interrupted: ${err.message}`, true);
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.textContent = 'Submit Verification Slip';
+            }
+        };
+        
+        reader.readAsDataURL(file);
+    }
+</script>
 </body>
 </html>
