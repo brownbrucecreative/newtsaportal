@@ -142,9 +142,12 @@
         <button id="loginBtn" onclick="handlePortalLogin()">Access Statement Dashboard</button>
     </div>
 
-    <!-- STAGE 2: LIVE METRICS & UPLOAD DASHBOARD -->
+    <!-- STAGE 2: LIVE METRICS DASHBOARD -->
     <div id="dashboardWindow" class="hidden">
-        <h2 id="welcomeHeader">Welcome Back!</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h2 id="welcomeHeader" style="margin: 0;">Welcome!</h2>
+            <button onclick="handleLogOut()" style="width: auto; padding: 6px 14px; font-size: 13px; background-color: #c5221f;">🔒 Secure Logout</button>
+        </div>
         <p>Real-time calculation metrics from the central TSA financial ledger matrix.</p>
 
         <div class="dashboard-grid">
@@ -156,19 +159,33 @@
                     <li><strong style="color: var(--error);">Outstanding Balance Due:</strong> <span id="metaBalance" style="font-weight:700; color: var(--error);">$0.00</span></li>
                 </ul>
             </div>
+            
+            <button onclick="navigateToUpload()" style="background-color: var(--primary); margin-top: 10px;">👉 Proceed to Receipt Upload</button>
+        </div>
+    </div>
 
-            <div style="border: 1px dashed var(--border); padding: 16px; border-radius: 6px;">
-                <h4 style="margin: 0 0 10px 0; font-size: 14px;">📸 Upload Bank Transfer Verification</h4>
-                <div class="form-group">
-                    <input type="file" id="receiptFile" accept="image/*">
-                </div>
-                <button id="uploadBtn" onclick="handleReceiptUpload()">Submit Verification Slip</button>
+    <!-- STAGE 3: RECEIPT UPLOAD SCREEN -->
+    <div id="uploadWindow" class="hidden">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h2 style="margin: 0;">📸 Submit Verification</h2>
+            <button onclick="handleLogOut()" style="width: auto; padding: 6px 14px; font-size: 13px; background-color: #c5221f;">🔒 Secure Logout</button>
+        </div>
+        <p>Upload your bank transfer verification image safely to your records folder.</p>
+
+        <div style="border: 1px dashed var(--border); padding: 20px; border-radius: 6px; background: #fafafa;">
+            <div class="form-group">
+                <label style="font-weight: 600;">Select Transfer Screenshot:</label>
+                <input type="file" id="receiptFile" accept="image/*">
             </div>
+            <button id="uploadBtn" onclick="handleReceiptUpload()" style="margin-bottom: 15px;">Submit Verification Slip</button>
+            
+            <button onclick="navigateToDashboard()" style="background-color: #5f6368;">⬅️ Return to Student Info</button>
         </div>
     </div>
 </div>
+
 <script>
-    // ⚠️ REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
+    // ⚠️ DON'T FORGET TO PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL HERE:
     const DEPLOYED_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylTZJeMPsqvDQd4nCZCo48w5mz5k7jXx20tPQSEdHYnl2PrimFIGJ0vNDOupkG8XB0/exec";
 
     let globalSessionData = null;
@@ -182,6 +199,31 @@
 
     function clearFeedback() {
         document.getElementById('feedbackMessage').classList.add('hidden');
+    }
+
+    // Navigation Panels Routing Logic
+    function navigateToUpload() {
+        clearFeedback();
+        document.getElementById('dashboardWindow').classList.add('hidden');
+        document.getElementById('uploadWindow').classList.remove('hidden');
+    }
+
+    function navigateToDashboard() {
+        clearFeedback();
+        document.getElementById('uploadWindow').classList.add('hidden');
+        document.getElementById('dashboardWindow').classList.remove('hidden');
+    }
+
+    function handleLogOut() {
+        globalSessionData = null;
+        document.getElementById('studentName').value = "";
+        document.getElementById('invoiceNumber').value = "";
+        document.getElementById('receiptFile').value = "";
+        clearFeedback();
+        
+        document.getElementById('dashboardWindow').classList.add('hidden');
+        document.getElementById('uploadWindow').classList.add('hidden');
+        document.getElementById('loginWindow').classList.remove('hidden');
     }
 
     async function handlePortalLogin() {
@@ -204,88 +246,68 @@
             const response = await fetch(url);
             const textResult = await response.text();
             
-            // Check for raw processing errors handled by our backend engine
             if (textResult.startsWith("ERROR") || textResult.startsWith("INVALID")) {
                 throw new Error(textResult);
             }
 
             const data = JSON.parse(textResult);
             
-            if (data.status === "success") {
-                globalSessionData = data;
-                
-                // Populate Dashboard Metrics
-                document.getElementById('welcomeHeader').textContent = `✅ ${data.studentName}`;
-                document.getElementById('metaClass').textContent = data.class;
-                document.getElementById('metaFees').textContent = data.totalFees;
-                document.getElementById('metaPaid').textContent = data.amountPaid;
-                document.getElementById('metaBalance').textContent = `$${data.remainingBalance}`;
-                
-                // Swap Interface Panels
-                document.getElementById('loginWindow').classList.add('hidden');
-                document.getElementById('dashboardWindow').classList.remove('hidden');
-            }
-        } catch (err) {
-            showFeedback(`Authentication Mismatch: ${err.message}`, true);
-        } finally {
-            loginBtn.disabled = false;
-            loginBtn.textContent = 'Access Statement Dashboard';
-        }
-    }
-
-    function handleReceiptUpload() {
-        const fileInput = document.getElementById('receiptFile');
-        const uploadBtn = document.getElementById('uploadBtn');
-        const files = fileInput.files;
-
-        if (!files || files.length === 0) {
-            showFeedback("Please attach a valid file capture payload first.", true);
-            return;
-        }
-
-        clearFeedback();
-        uploadBtn.disabled = true;
-        uploadBtn.innerHTML = '<div class="loader"></div> Injecting Slip into Google Drive...';
-
-        const file = files[0];
-        const reader = new FileReader();
-        reader.onload = async function(e) {
-            const base64Data = e.target.result;
-
-            try {
-                // Post transmission payloads securely into the matrix boundary
-                const formData = new URLSearchParams();
-                formData.append('action', 'uploadReceipt');
-                formData.append('studentName', globalSessionData.studentName);
-                formData.append('invoiceNumber', globalSessionData.invoiceNumber);
-                formData.append('fileData', base64Data);
-
-                const response = await fetch(DEPLOYED_APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    body: formData,
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                });
-
-                const resData = await response.json();
-                
-                if (resData.status === "success") {
-                    showFeedback("🎉 Transmission Verified! Receipt successfully logged to Drive archiving.");
-                    fileInput.value = ""; // Clear file selector input
-                } else {
-                    throw new Error("Internal processing server exception.");
-                }
-            } catch (err) {
-                showFeedback(`Upload Routine Interrupted: ${err.message}`, true);
-            } finally {
-                uploadBtn.disabled = false;
-                uploadBtn.textContent = 'Submit Verification Slip';
-            }
-        };
-        
-        reader.readAsDataURL(file);
-    }
-</script>
-</body>
-</html>
-
-<!-- Refresh Build -->).
+if (data.status === "success") {
+globalSessionData = data;
+document.getElementById('welcomeHeader').textContent = ✅ ${data.studentName};
+document.getElementById('metaClass').textContent = data.class;
+document.getElementById('metaFees').textContent = data.totalFees;
+document.getElementById('metaPaid').textContent = data.amountPaid;
+document.getElementById('metaBalance').textContent = $${data.remainingBalance};
+document.getElementById('loginWindow').classList.add('hidden');
+document.getElementById('dashboardWindow').classList.remove('hidden');
+}
+} catch (err) {
+showFeedback(Authentication Mismatch: ${err.message}, true);
+} finally {
+loginBtn.disabled = false;
+loginBtn.textContent = 'Access Statement Dashboard';
+}
+}
+function handleReceiptUpload() {
+const fileInput = document.getElementById('receiptFile');
+const uploadBtn = document.getElementById('uploadBtn');
+const files = fileInput.files;
+if (!files || files.length === 0) {
+showFeedback("Please attach a valid file capture payload first.", true);
+return;
+}
+clearFeedback();
+uploadBtn.disabled = true;
+uploadBtn.innerHTML = ' Injecting Slip into Google Drive...';
+const file = files[0];
+const reader = new FileReader();
+reader.onload = async function(e) {
+let base64Data = e.target.result;
+try {
+const formData = new URLSearchParams();
+formData.append('action', 'uploadReceipt');
+formData.append('studentName', globalSessionData.studentName);
+formData.append('invoiceNumber', globalSessionData.invoiceNumber);
+formData.append('fileData', base64Data);
+const response = await fetch(DEPLOYED_APPS_SCRIPT_URL, {
+method: 'POST',
+body: formData,
+headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+});
+const resData = await response.json();
+if (resData.status === "success") {
+showFeedback("🎉 Transmission Verified! Receipt successfully logged to Drive archiving.");
+fileInput.value = "";
+} else {
+throw new Error("Internal processing server exception.");
+}
+} catch (err) {
+showFeedback(Upload Routine Interrupted: ${err.message}, true);
+} finally {
+uploadBtn.disabled = false;
+uploadBtn.textContent = 'Submit Verification Slip';
+}
+};
+reader.readAsDataURL(file);
+}
