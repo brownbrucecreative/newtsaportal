@@ -139,7 +139,7 @@
     <!-- STAGE 1: SECURE GATEWAY LOGIN -->
     <div id="loginWindow">
         <h2>TSA Portal Gateway</h2>
-        <p>Enter credentials exactly as they appear on your invoice.</p>
+        <p>Enter credentials exactly as they appear on your student registration slip.</p>
         
         <div class="form-group">
             <label for="studentName">Student Full Name</label>
@@ -154,12 +154,10 @@
         <button id="loginBtn" onclick="handlePortalLogin()">Access Statement Dashboard</button>
     </div>
 
+
     <!-- STAGE 2: LIVE METRICS DASHBOARD -->
     <div id="dashboardWindow" class="hidden">
-        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;">
-            <h2 id="welcomeHeader" style="margin: 0 0 10px 0;">Welcome!</h2>
-            <button onclick="handleLogOut()" style="width: auto; max-width: 150px; padding: 6px 14px; font-size: 13px; background-color: #ef4444; color: white;">Secure Logout</button>
-        </div>
+        <h2>Welcome!</h2>
         <p>Real-time calculation metrics from the central TSA financial ledger matrix.</p>
 
         <div class="dashboard-grid">
@@ -172,16 +170,16 @@
                 </ul>
             </div>
             
-            <button onclick="navigateToUpload()" style="background-color: var(--primary); color: #0b0f19;">Proceed to Receipt Upload</button>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 10px;">
+                <button onclick="navigateToUpload()" style="background-color: var(--primary); color: #0b0f19;">Proceed to Receipt Upload</button>
+                <button onclick="handleLogOut()" style="background-color: #ef4444; color: white;">Secure Logout</button>
+            </div>
         </div>
     </div>
 
     <!-- STAGE 3: RECEIPT UPLOAD SCREEN -->
     <div id="uploadWindow" class="hidden">
-        <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;">
-            <h2 style="margin: 0 0 10px 0;">Submit Verification</h2>
-            <button onclick="handleLogOut()" style="width: auto; max-width: 150px; padding: 6px 14px; font-size: 13px; background-color: #ef4444; color: white;">Secure Logout</button>
-        </div>
+        <h2>Submit Verification</h2>
         <p>Upload your bank transfer verification image safely to your records folder.</p>
 
         <div style="border: 2px dashed var(--border); padding: 25px 20px; border-radius: 8px; background: #0f172a; display: flex; flex-direction: column; align-items: center;">
@@ -189,9 +187,12 @@
                 <label style="font-weight: 600;">Select Transfer Screenshot</label>
                 <input type="file" id="receiptFile" accept="image/*" style="padding: 8px; background: transparent; border: none;">
             </div>
-            <button id="uploadBtn" onclick="handleReceiptUpload()" style="margin-bottom: 15px;">Submit Verification Slip</button>
             
-            <button onclick="navigateToDashboard()" style="background-color: #475569; color: white;">Return to Student Info</button>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%;">
+                <button id="uploadBtn" onclick="handleReceiptUpload()">Submit Verification Slip</button>
+                <button onclick="navigateToDashboard()" style="background-color: #475569; color: white;">Return to Student Info</button>
+                <button onclick="handleLogOut()" style="background-color: #ef4444; color: white;">Secure Logout</button>
+            </div>
         </div>
     </div>
 </div>
