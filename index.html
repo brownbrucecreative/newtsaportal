@@ -161,9 +161,11 @@
         <p>Real-time calculation metrics from the central TSA financial ledger matrix.</p>
 
         <div class="dashboard-grid">
-            <div class="metrics-card">
+             <div class="metrics-card">
                 <ul>
+                    <li><strong>Student Name</strong><span id="metaStudentName">-</span></li>
                     <li><strong>Class Allocation</strong><span id="metaClass">-</span></li>
+
                     <li><strong>Total Fees Invoiced</strong>$<span id="metaFees">0.00</span></li>
                     <li><strong>Verified Payments</strong>$<span id="metaPaid">0.00</span></li>
                     <li><strong style="color: var(--error);">Outstanding Balance Due</strong><span id="metaBalance" style="font-weight:700; color: var(--error);">$0.00</span></li>
@@ -270,10 +272,14 @@
                 if (welcomeSlot) {
                     welcomeSlot.textContent = "Welcome, " + data.studentName;
                 }
+                          // Maps the full name directly into your new summary row slot
+                if (document.getElementById('metaStudentName')) document.getElementById('metaStudentName').textContent = data.studentName;
+                
                 if (document.getElementById('metaClass')) document.getElementById('metaClass').textContent = data.class;
                 if (document.getElementById('metaFees')) document.getElementById('metaFees').textContent = data.totalFees;
                 if (document.getElementById('metaPaid')) document.getElementById('metaPaid').textContent = data.amountPaid;
                 if (document.getElementById('metaBalance')) document.getElementById('metaBalance').textContent = `$${data.remainingBalance}`;
+
                 
                 document.getElementById('loginWindow').classList.add('hidden');
                 document.getElementById('dashboardWindow').classList.remove('hidden');
