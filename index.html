@@ -184,11 +184,19 @@
         <h2>Submit Verification</h2>
         <p>Upload your bank transfer verification image safely to your records folder.</p>
 
-        <div style="border: 2px dashed var(--border); padding: 25px 20px; border-radius: 8px; background: #0f172a; display: flex; flex-direction: column; align-items: center;">
+             <div style="border: 2px dashed var(--border); padding: 25px 20px; border-radius: 8px; background: #0f172a; display: flex; flex-direction: column; align-items: center;">
+            
+            <!-- NEW CENTERED AMOUNT TRANSMISSION INPUT FIELD -->
+            <div class="form-group" style="width: 100%;">
+                <label style="font-weight: 600;">Transfer Amount Paid ($)</label>
+                <input type="text" id="receiptAmount" placeholder="e.g., 150.00" style="max-width: 400px;">
+            </div>
+
             <div class="form-group" style="width: 100%;">
                 <label style="font-weight: 600;">Select Transfer Screenshot</label>
                 <input type="file" id="receiptFile" accept="image/*" style="padding: 8px; background: transparent; border: none;">
             </div>
+
             
             <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%;">
                 <button id="uploadBtn" onclick="handleReceiptUpload()">Submit Verification Slip</button>
@@ -300,11 +308,17 @@
 
 
 
-    function handleReceiptUpload() {
+        function handleReceiptUpload() {
+        const amtInput = document.getElementById('receiptAmount');
         const fileInput = document.getElementById('receiptFile');
         const uploadBtn = document.getElementById('uploadBtn');
         const files = fileInput.files;
+        const amount = amtInput ? amtInput.value.trim() : "";
 
+        if (!amount) {
+            showFeedback("Please enter the exact transfer amount paid.", true);
+            return;
+        }
         if (!files || files.length === 0) {
             showFeedback("Please attach a valid file capture payload first.", true);
             return;
@@ -323,6 +337,7 @@
                 formData.append('action', 'uploadReceipt');
                 formData.append('studentName', globalSessionData.studentName);
                 formData.append('invoiceNumber', globalSessionData.invoiceNumber);
+                formData.append('amountPaidText', amount); // Safely appends the typed figure
                 formData.append('fileData', base64Data);
 
                 const response = await fetch(DEPLOYED_APPS_SCRIPT_URL, {
@@ -335,6 +350,7 @@
                 if (resData.status === "success") {
                     showFeedback("🎉 Transmission Verified! Receipt successfully logged to Drive archiving.");
                     fileInput.value = "";
+                    if (amtInput) amtInput.value = ""; // Clears the amount input row
                 } else {
                     throw new Error("Internal processing server exception.");
                 }
@@ -347,6 +363,7 @@
         };
         reader.readAsDataURL(file);
     }
+
 </script>
 </body>
 </html>
