@@ -163,7 +163,7 @@
         document.getElementById('loginWindow').classList.remove('hidden');
     }
 
-    async function handlePortalLogin() {
+        async function handlePortalLogin() {
         const sName = document.getElementById('studentName').value.trim();
         const invNo = document.getElementById('invoiceNumber').value.trim();
         const loginBtn = document.getElementById('loginBtn');
@@ -179,9 +179,14 @@
 
         try {
             const targetUrl = `${DEPLOYED_APPS_SCRIPT_URL}?action=fetchDetails&studentName=${encodeURIComponent(sName)}&invoiceNumber=${encodeURIComponent(invNo)}`;
-            const response = await fetch(targetUrl, { method: 'GET', mode: 'cors' });
-            const textResult = await response.text();
             
+            // Forces the browser to safely follow Google's internal database redirection
+            const response = await fetch(targetUrl, { 
+                method: 'GET',
+                redirect: 'follow'
+            });
+            const textResult = await response.text();
+
             if (textResult.startsWith("ERROR") || textResult.startsWith("INVALID")) {
                 throw new Error(textResult);
             }
@@ -200,12 +205,13 @@
                 throw new Error("Invalid payload mapping configuration returned.");
             }
         } catch (err) {
-            showFeedback(`Connection Interrupted: ${err.message}. Ensure your Google Script Web App has access granted to 'Anyone' and has been authorized by the owner.`, true);
+            showFeedback(`Connection Interrupted: ${err.message}. Please double check that your spelling matches your spreadsheet records.`, true);
         } finally {
             loginBtn.disabled = false;
             loginBtn.textContent = 'Access Statement Dashboard';
         }
     }
+
 
     function handleReceiptUpload() {
         const fileInput = document.getElementById('receiptFile');
