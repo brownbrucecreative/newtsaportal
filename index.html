@@ -161,16 +161,16 @@
         <p>Real-time calculation metrics from the central TSA financial ledger matrix.</p>
 
         <div class="dashboard-grid">
-             <div class="metrics-card">
+                     <div class="metrics-card">
                 <ul>
-                    <li><strong>Student Name</strong><span id="metaStudentName">-</span></li>
+                    <li><strong>Student Name</strong><span id="metaStudentName" style="font-weight: 700; color: var(--primary);">-</span></li>
                     <li><strong>Class Allocation</strong><span id="metaClass">-</span></li>
-
                     <li><strong>Total Fees Invoiced</strong>$<span id="metaFees">0.00</span></li>
                     <li><strong>Verified Payments</strong>$<span id="metaPaid">0.00</span></li>
                     <li><strong style="color: var(--error);">Outstanding Balance Due</strong><span id="metaBalance" style="font-weight:700; color: var(--error);">$0.00</span></li>
                 </ul>
             </div>
+
             
             <div style="display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 10px;">
                 <button onclick="navigateToUpload()" style="background-color: var(--primary); color: #0b0f19;">Proceed to Receipt Upload</button>
@@ -241,14 +241,18 @@
     }
 
          async function handlePortalLogin() {
-        const sName = document.getElementById('studentName').value.trim();
-        const invNo = document.getElementById('invoiceNumber').value.trim();
-        const loginBtn = document.getElementById('loginBtn');
+                       // Explicit data binding matrix for centered panel rows
+                const rowStudent = document.getElementById('metaStudentName');
+                const rowClass = document.getElementById('metaClass');
+                const rowFees = document.getElementById('metaFees');
+                const rowPaid = document.getElementById('metaPaid');
+                const rowBalance = document.getElementById('metaBalance');
 
-        if (!sName || !invNo) {
-            showFeedback("Please complete all profile authentication parameters.", true);
-            return;
-        }
+                if (rowStudent) rowStudent.textContent = data.studentName;
+                if (rowClass) rowClass.textContent = data.class;
+                if (rowFees) rowFees.textContent = data.totalFees;
+                if (rowPaid) rowPaid.textContent = data.amountPaid;
+                if (rowBalance) rowBalance.textContent = `$${data.remainingBalance}`;
 
         clearFeedback();
         loginBtn.disabled = true;
@@ -274,7 +278,6 @@
                 }
                           // Maps the full name directly into your new summary row slot
                 if (document.getElementById('metaStudentName')) document.getElementById('metaStudentName').textContent = data.studentName;
-                
                 if (document.getElementById('metaClass')) document.getElementById('metaClass').textContent = data.class;
                 if (document.getElementById('metaFees')) document.getElementById('metaFees').textContent = data.totalFees;
                 if (document.getElementById('metaPaid')) document.getElementById('metaPaid').textContent = data.amountPaid;
